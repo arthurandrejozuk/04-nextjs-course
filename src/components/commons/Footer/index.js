@@ -1,6 +1,10 @@
-import { Box, Text, theme } from '../../../theme/components';
+import { getCMSContent } from '../../../infra/cms/cmsProvider';
+import { Box, Link, Text, theme, } from '../../../theme/components';
+
+
 
 export function Footer() {
+  const description = getCMSContent().globalPageContentRes.globalFooter.description;
   return (
     <Box
       tag="footer"
@@ -23,9 +27,16 @@ export function Footer() {
             justifyContent: 'center',
             color: theme.colors.neutral.x000
           }}
-        >
-          &copy; {new Date().getFullYear()} DevSoutinho. Todos os direitos reservados.
+        > 
+          &copy; {new Date().getFullYear()} {description}
         </Text>
+          {
+            process.env.NODE_ENV !== 'production' && (
+              <Link href='/api/preview?password=senhasegura'>
+                Preview mode
+              </Link>
+            )
+          }
       </Box>
     </Box>
   )
